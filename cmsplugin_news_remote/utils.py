@@ -9,7 +9,7 @@ def update_cache(path, source_url):
     prev_timeout = socket.getdefaulttimeout()
     try:
         socket.setdefaulttimeout(2)
-        url = urllib2.urlopen(source_url)
+        url = urllib2.urlopen(source_url.encode('utf-8'))
         data = url.read()
         url.close()        
     except Exception, raised_exception:
@@ -60,5 +60,21 @@ def get_news(cache_file_path=None):
             if news_item.object.unpub_date != None:
                 if news_item.object.unpub_date < datetime.now():
                     continue
+            news += [news_item.object]
+    return news
+
+def get_archived_news(cache_file_path=None):
+    data_file = open(cache_file_path, "r")
+    try:
+        data_json = data_file.read()
+    finally:
+        data_file.close()
+    #news_debug = News()
+    #news_debug.title = status
+    #latest = [news_debug] #News.published.all()[:instance.limit]        
+    data = serializers.deserialize("json", data_json)
+    news = []
+    for news_item in data:
+        if news_item.object.is_published:
             news += [news_item.object]
     return news

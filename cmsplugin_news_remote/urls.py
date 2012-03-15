@@ -14,6 +14,8 @@ news_info_month_dict = {
 }
 
 urlpatterns = patterns('cmsplugin_news_remote.views',
+    (r'^(?P<plugin_id>\d+)/$', 'news_archive', news_info_dict,
+        'remote_news_archive',),
     (r'^(?P<plugin_id>\d+)/(?P<slug>[-\w]+)/$', 
         'news_detail', news_info_dict, 'remote_news_detail'),
 )

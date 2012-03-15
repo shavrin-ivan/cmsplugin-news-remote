@@ -43,6 +43,7 @@ class CMSNewsRemotePlugin(CMSPluginBase):
                 news_item.news_remote_link = reverse(
                     "remote_news_detail", kwargs={"plugin_id":instance.id, "slug":news_item.slug})
             context.update({
+                'news_archive_link': reverse('remote_news_archive', kwargs={'plugin_id':instance.id}),
                 'instance': instance,
                 'latest': latest,
                 'placeholder': placeholder,
